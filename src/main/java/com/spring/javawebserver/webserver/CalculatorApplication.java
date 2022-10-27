@@ -30,3 +30,16 @@ public class CalculatorApplication {
 	}
 }
 
+@Controller
+class CalculationController {
+
+    @PostMapping("/calculate")
+    public String calculate(@RequestParam String description, @RequestParam String expr) {
+        String[] inputLiterals = Parser.parse(description);
+        if(Arith.validateInfixOrder(inputLiterals)){
+            return String.valueOf(Arith.evaluateInfixOrder(inputLiterals));
+        } else{
+            return "Error";
+        }
+    }
+}

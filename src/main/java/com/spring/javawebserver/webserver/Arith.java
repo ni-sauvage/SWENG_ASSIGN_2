@@ -13,7 +13,7 @@ public class Arith {
     }
     
     public static boolean validateInfixOrder(String[] infixLiterals) {
-        if(infixLiterals == null) return false;
+        if(infixLiterals == null || infixLiterals.length == 0) return false;
         int lbCount = infixLiterals[0].equals("(") ? 1 : 0;
         int rbCount = infixLiterals[infixLiterals.length - 1].equals(")") ? 1 : 0;
         for (int i = 1; i < infixLiterals.length - 1; i++) {

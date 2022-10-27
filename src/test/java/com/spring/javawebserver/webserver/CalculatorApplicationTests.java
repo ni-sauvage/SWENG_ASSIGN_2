@@ -11,6 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 class CalculatorApplicationTests {
 
 	@Test
+	public void testParser() {
+		String parseString = "(((1-5)^3)+(10-(3+(-6/3))))";
+		String[] parsedString = { "(", "(", "(", "1", "-", "5", ")", "^", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "-6", "/", "3", ")", ")", ")", ")" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty infixLiteral String");
+	}
+
+	@Test
     public void testEvaluateInOrder(){
 		String[] infixLiterals = { "(", "(", "(", "1", "-", "5", ")", "*", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "6", "/", "3", ")", ")", ")", ")" };
         assertEquals(-7, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String");
