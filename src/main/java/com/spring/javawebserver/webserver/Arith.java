@@ -2,18 +2,81 @@ package com.spring.javawebserver.webserver;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
 
 public class Arith {
-    public static boolean validateInfixOrder(String[] infixLiterals) {
-        return false;
-    }
-
+    
     public static double evaluateInfixOrder(String[] infixLiterals) {
-        return -1;
+        if (validateInfixOrder(infixLiterals))
+            return evaluatePostfixOrder(convertInfixToPostfix(infixLiterals));
+        throw new IllegalArgumentException();
     }
+    
+    public static boolean validateInfixOrder(String[] infixLiterals) {
+        if(infixLiterals == null) return false;
+        int lbCount = infixLiterals[0].equals("(") ? 1 : 0;
+        int rbCount = infixLiterals[infixLiterals.length - 1].equals(")") ? 1 : 0;
+        for (int i = 1; i < infixLiterals.length - 1; i++) {
+            if (isOperand(infixLiterals[i])) {
+                if (isOperand(infixLiterals[i - 1]) || isOperand(infixLiterals[i + 1])) {
+                    return false;
+                }
+            }
+            if (isOperator(infixLiterals[i])) {
+                if (isOperator(infixLiterals[i - 1]) || isOperator(infixLiterals[i + 1])) {
+                    return false;
+                }
+            }
+            if (infixLiterals[i].equals("(")) {
+                lbCount++;
+                if (isOperator(infixLiterals[i + 1])) {
+                    return false;
+                }
+                if (infixLiterals[i - 1].equals(")") || infixLiterals[i + 1].equals(")")) {
+                    return false;
+                }
+            }
+            if (infixLiterals[i].equals(")")) {
+                rbCount++;
+            }
+        }
+        return lbCount == rbCount; //if there are equal left and right brackets, return true
+      }
 
+    // Shunting yard algorithm
     public static String[] convertInfixToPostfix(String[] infixLiterals) {
-        return infixLiterals;
+        Deque<String> operatorStack = new ArrayDeque<>();
+        LinkedList<String> postfixList = new LinkedList<>();
+        for (String infixLiteral : infixLiterals) {
+            if (isOperand(infixLiteral))
+                postfixList.add(infixLiteral); 
+            else if (infixLiteral == "(")
+                operatorStack.push(infixLiteral);                                                                                                           
+            else if (isOperator(infixLiteral)){
+                while ((operatorStack.peek() != "(" && operatorStack.peek() != null) &&
+                    (Arith.getPrecedence(operatorStack.peek()) > Arith.getPrecedence(infixLiteral) ||
+                    (!Arith.isRightAssociative(infixLiteral) && Arith.getPrecedence(operatorStack.peek()) == Arith.getPrecedence(infixLiteral))
+                )){
+                    postfixList.add(operatorStack.pop());
+                }
+                operatorStack.push(infixLiteral);
+            }
+            else if (infixLiteral == ")") {
+                while (operatorStack.peek() != "(") {
+                    postfixList.add(operatorStack.pop());
+                }
+                operatorStack.pop();
+            }
+        }   
+        while (operatorStack.peek() != null){
+            postfixList.add(operatorStack.pop());
+        }
+        //Crude conversion ahead, rework if possible.
+        String[] postfixLiterals = new String[postfixList.size()];
+        for (int i = 0; i < postfixLiterals.length; i++){
+            postfixLiterals[i] = postfixList.get(i);
+        }
+        return postfixLiterals;
     }
 
     public static double evaluatePostfixOrder(String[] postfixLiterals) {

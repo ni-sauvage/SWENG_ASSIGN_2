@@ -2,6 +2,8 @@ package com.spring.javawebserver.webserver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,15 +12,51 @@ class CalculatorApplicationTests {
 
 	@Test
     public void testEvaluateInOrder(){
-    
+		String[] infixLiterals = { "(", "(", "(", "1", "-", "5", ")", "*", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "6", "/", "3", ")", ")", ")", ")" };
+        assertEquals(-7, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String");
+        infixLiterals = new String[]{ "(", "(", "(", "5", "*", "(", "3", "/", "4", ")", ")", "-", "5", ")", "+", "(", "7", "/", "(", "2", "+", "3", ")", ")", "-", "7", ")"};
+        assertEquals(-6.85, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String");
+        /*
+		infixLiterals = new String[]{"1", "5", "-", "3", "*", "6", "3", "/", "10", "-", "+"};
+		assertEquals(new IllegalArgumentException(), Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with invalid infixLiteral String");
+        infixLiterals = null;
+        assertEquals(new IllegalArgumentException(), Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with empty infixLiteral String");
+		*/
+        infixLiterals = new String[]{ "(", "(", "(", "1", "-", "5", ")", "*", "3", ")", "+", "(", "-10", "-", "(", "3", "+", "(", "6", "/", "3", ")", ")", ")", ")" };
+        assertEquals(-27, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with negative value");
+		infixLiterals = new String[]{ "1", "/", "4" };
+        assertEquals(0.25, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with non-integer result");
+		infixLiterals = new String[]{ "3", "^", "4", "^", "2" };
+        assertEquals(43046721, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with power operators");
     }
+
     @Test
     public void testValidateInfix(){
-        
+        String[] infixLiterals = { "(", "(", "(", "1", "-", "5", ")", "*", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "6", "/", "3", ")", ")", ")", ")" };
+        assertEquals( true, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty valid infixLiteral String");
+        infixLiterals = new String[]{"(", "(", ")", "1", "-", "5", ")", "*", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "6", "/", "3", ")", ")", ")", ")"};
+        assertEquals(false, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty invalid infixLiteral String");
+        infixLiterals = new String[]{"(", "(", "(", "1", "-", "5", ")", "*", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "6", "/", "3", ")", ")", ")"};
+        assertEquals(false, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty invalid infixLiteral String");
+        infixLiterals = new String[]{"(", "(", "(", "1", "-", "5", ")", "*", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "6", "2", "3", ")", ")", ")", ")"};
+        assertEquals(false, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty invalid infixLiteral String");
+        infixLiterals = new String[]{"(", "(", "(", "1", "-", "5", ")", "*", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "+", "2", "3", ")", ")", ")", ")"};
+        assertEquals(false, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty invalid infixLiteral String");
+        infixLiterals = new String[]{"(", "(", "(", "1", "-", "5", ")", "*", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "6", "/", "+", ")", ")", ")", ")"};
+        assertEquals(false, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty invalid infixLiteral String");
+        infixLiterals = null;
+        assertEquals(false, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty invalid infixLiteral String");
+        infixLiterals = new String[]{ "(", "(", "(", "5", "*", "(", "3", "/", "4", ")", ")", "-", "5", ")", "+", "(", "7", "/", "(", "2", "+", "3", ")", ")", "-", "7", ")"};
+        assertEquals(true, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty valid infixLiteral String");
     }
     @Test
     public void testInfixToPostfix(){
-        
+        String[] infixLiterals = { "(", "(", "(", "1", "-", "5", ")", "*", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "6", "/", "3", ")", ")", ")", ")" };
+        String[] postfixLiterals = {"1", "5", "-", "3", "*", "10", "3", "6", "3", "/", "+", "-", "+"};
+        assertEquals(true, Arrays.equals(Arith.convertInfixToPostfix(infixLiterals), postfixLiterals), "Testing infixToPostfix with non-empty infixLiterals String");
+		infixLiterals = new String[]{"1", "^", "2", "^", "3"};
+		postfixLiterals = new String[]{"1", "2", "3", "^", "^"};
+        assertEquals(true, Arrays.equals(Arith.convertInfixToPostfix(infixLiterals), postfixLiterals), "Testing infixToPostfix with non-empty infixLiterals String");
     }
 	@Test
 	public void testEvaluatePostfixOrder(){
