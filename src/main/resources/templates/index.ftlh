@@ -10,7 +10,7 @@
         <li class="mv3"><label class="f6 b db mb2" for="description">Input your calculation here</label>
             <textarea class="f4 db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2" rows="5"
                       name="description"><#if description??>${description}</#if></textarea>
-            <input class="f6 link dim br1 ba bw1 ph3 pv2 mb2 dib black bg-white pointer" type="submit" value="calculate"
+            <input class="f6 link dim br1 ba bw1 ph3 pv2 mb2 dib black bg-white pointer" type="submit" value="Calculate"
                    name="add">
         </li>
     </ol>
