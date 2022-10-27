@@ -22,7 +22,18 @@ class CalculatorApplicationTests {
     }
 	@Test
 	public void testEvaluatePostfixOrder(){
-
+		String[] expr = {"1", "2", "+"};
+		assertEquals(3, Arith.evaluatePostfixOrder(expr), "Testing evaluatePostfix with String Array 1, 2, +");
+		expr = new String[] {"1", "2", "+", "4", "*"};
+		assertEquals(12, Arith.evaluatePostfixOrder(expr), "Testing evaluatePostfix with String Array 1, 2, +, 4, *");
+		expr = new String[] {"1", "2", "+", "4", "*", "3", "/"};
+		assertEquals(4, Arith.evaluatePostfixOrder(expr), "Testing evaluatePostfix with String Array 1, 2, +, 4, *, 3, /");
+		expr = new String[] {"1", "2", "+", "4", "*", "3", "/", "2", "^"};
+		assertEquals(16, Arith.evaluatePostfixOrder(expr), "Testing evaluatePostfix with String Array 1, 2, +, 4, *, 3, /, 2, ^");
+		expr = new String[] {"1", "2", "+", "4", "*", "3", "/", "2", "^", "1", "-"};
+		assertEquals(15, Arith.evaluatePostfixOrder(expr), "Testing evaluatePostfix with String Array 1, 2, +, 4, *, 3, /, 2, ^, 1, -");
+		expr = new String[] {"4", "2", "3", "+", "*"};
+		assertEquals(20, Arith.evaluatePostfixOrder(expr), "Testing evaluatePostfix with String Array 4, 2, 3, +, *");
 	}
 	@Test
 	public void testIsOperand(){

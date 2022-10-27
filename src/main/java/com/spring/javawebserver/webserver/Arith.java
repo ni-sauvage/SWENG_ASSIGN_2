@@ -1,11 +1,14 @@
 package com.spring.javawebserver.webserver;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class Arith {
     public static boolean validateInfixOrder(String[] infixLiterals) {
         return false;
     }
 
-    public static int evaluateInfixOrder(String[] infixLiterals) {
+    public static double evaluateInfixOrder(String[] infixLiterals) {
         return -1;
     }
 
@@ -13,8 +16,37 @@ public class Arith {
         return infixLiterals;
     }
 
-    public static int evaluatePostfixOrder(String[] postfixLiterals) {
-        return -1;
+    public static double evaluatePostfixOrder(String[] postfixLiterals) {
+        Deque<Double> operandStack = new ArrayDeque<>();
+        for (String postfixLiteral : postfixLiterals) {
+            if (isOperator(postfixLiteral)) {
+                double secondOperand = operandStack.pop();
+                double firstOperand = operandStack.pop();
+                double result;
+                if (postfixLiteral.equals("+")) {
+                    result = firstOperand + secondOperand;
+                    operandStack.push(result);
+                } else if (postfixLiteral.equals("-")) {
+                    result = firstOperand - secondOperand;
+                    operandStack.push(result);
+                }
+                if (postfixLiteral.equals("*")) {
+                    result = firstOperand * secondOperand;
+                    operandStack.push(result);
+                }
+                if (postfixLiteral.equals("/")) {
+                    result = firstOperand / secondOperand;
+                    operandStack.push(result);
+                }
+                if (postfixLiteral.equals("^")) {
+                    result = Math.pow(firstOperand, secondOperand);
+                    operandStack.push(result);
+                }
+            } else if (isOperand(postfixLiteral)) {
+                operandStack.push(Double.valueOf(postfixLiteral));
+            }
+        }
+        return operandStack.pop();
     }
 
     public static boolean isOperand(String possibleOperand) {
