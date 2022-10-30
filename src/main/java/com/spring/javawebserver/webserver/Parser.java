@@ -32,7 +32,8 @@ public class Parser {
                 }
             }
         }
-        parseList.add(charListToString(operandList));
+        if (!operandList.isEmpty())
+            parseList.add(charListToString(operandList));
         return stringListToStringArray(parseList);
     }
 
