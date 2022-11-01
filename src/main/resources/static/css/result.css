@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
 body {
     height: 100vh;
     max-width: 100%;
@@ -14,6 +16,7 @@ body {
     height: 30%;
     top: 80px;
     text-align: center;
+    font-family: 'Montserrat', sans-serif;
 }
 .resultDisplay{
     position: relative;
@@ -28,12 +31,14 @@ body {
 }
 .resultDisplay h1{
     color: black;
+    font-family: 'Nunito', sans-serif;
 }
 .anotherInput{
     top: 20px;
     text-align: center;
     position: relative;
     cursor: pointer;
+    font-family: 'Nunito', sans-serif;
 }
 .anotherInput a{
     text-decoration: none;
