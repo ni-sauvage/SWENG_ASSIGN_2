@@ -32,6 +32,15 @@
                     </form>
                 </div>
             </div>
+            <div class="membersArea">
+                <div class="members">
+                    <div class="one"><h4>Aritro De</h4></div>
+                    <div class="two"><h4>James Fenlon</h4></div>
+                    <div class="three"><h4>Leah O'Connor</h4></div>
+                    <div class="four"><h4>Niall Sauvage</h4></div>
+                    <div class="five"><h4>Saif Ali</h4></div>
+                </div>
+            </div>
         </div>
     </body>
 </html>
