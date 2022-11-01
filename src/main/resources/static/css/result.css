@@ -1,0 +1,44 @@
+body {
+    height: 100vh;
+    max-width: 100%;
+    background-image: url('media/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    max-height: 100vh;
+   }
+
+.headerStyle{
+    position: relative;
+    width: 100%;
+    height: 30%;
+    top: 80px;
+    text-align: center;
+}
+.resultDisplay{
+    position: relative;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(1, 1fr);
+    border: 3px solid white;
+    border-radius: 15px;
+    width: 33%;
+    left: 33%;
+}
+.resultDisplay h1{
+    color: black;
+}
+.anotherInput{
+    top: 20px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+.anotherInput a{
+    text-decoration: none;
+    color: white;
+}
+.anotherInput a:hover{
+    color: grey;
+}
