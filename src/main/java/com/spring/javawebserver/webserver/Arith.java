@@ -3,6 +3,7 @@ package com.spring.javawebserver.webserver;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Set;
 
 public class Arith {
     
@@ -14,34 +15,66 @@ public class Arith {
     
     public static boolean validateInfixOrder(String[] infixLiterals) {
         if(infixLiterals == null || infixLiterals.length == 0) return false;
+        boolean hasOperand = isOperand(infixLiterals[0]) || isOperand(infixLiterals[infixLiterals.length - 1]);
         int lbCount = infixLiterals[0].equals("(") ? 1 : 0;
         int rbCount = infixLiterals[infixLiterals.length - 1].equals(")") ? 1 : 0;
+        if(infixLiterals[infixLiterals.length - 1].equals("(") || infixLiterals[0].equals(")")) return false;
+        if(infixLiterals.length == 1){
+            if(isOperand(infixLiterals[0]))
+                return true;
+            return false;
+        }
+        if(isOperator(infixLiterals[infixLiterals.length-1]) 
+            || isFunction(infixLiterals[infixLiterals.length-1])
+            || isOperator(infixLiterals[0]) 
+        )
+            return false;
         for (int i = 1; i < infixLiterals.length - 1; i++) {
-            if (isOperand(infixLiterals[i])) {
-                if (isOperand(infixLiterals[i - 1]) || isOperand(infixLiterals[i + 1])) {
-                    return false;
+            try{
+                if (isOperand(infixLiterals[i])) {
+                    if (isOperand(infixLiterals[i - 1]) || isOperand(infixLiterals[i + 1])) {
+                        return false;
+                    }
+                    hasOperand = true;
                 }
-            }
-            if (isOperator(infixLiterals[i])) {
-                if (isOperator(infixLiterals[i - 1]) || isOperator(infixLiterals[i + 1])) {
-                    return false;
+                if (isOperator(infixLiterals[i])) {
+                    if (isOperator(infixLiterals[i - 1]) || isOperator(infixLiterals[i + 1])
+                        || infixLiterals[i - 1].equals("(")
+                        || infixLiterals[i + 1].equals(")")
+                    ) {
+                        return false;
+                    }
                 }
-            }
-            if (infixLiterals[i].equals("(")) {
-                lbCount++;
-                if (isOperator(infixLiterals[i + 1])) {
-                    return false;
+                if (infixLiterals[i].equals("(")) {
+                    lbCount++;
+                    if (isOperator(infixLiterals[i + 1])) {
+                        return false;
+                    }
+                    if (infixLiterals[i - 1].equals(")") || infixLiterals[i + 1].equals(")")) {
+                        return false;
+                    }
                 }
-                if (infixLiterals[i - 1].equals(")") || infixLiterals[i + 1].equals(")")) {
-                    return false;
+                if (infixLiterals[i].equals(")")) {
+                    rbCount++;
+                    if (isOperand(infixLiterals[i + 1])) {
+                        return false;
+                    }
+                    if (infixLiterals[i - 1].equals("(") || infixLiterals[i + 1].equals("(")) {
+                        return false;
+                    }
                 }
-            }
-            if (infixLiterals[i].equals(")")) {
-                rbCount++;
+                if(isFunction(infixLiterals[i])){
+                    if(isOperand(infixLiterals[i-1]) || infixLiterals[i-1].equals(")"))
+                        return false;
+                    if(!infixLiterals[i+1].equals("("))
+                        return false;
+                }
+            } catch (Exception e){
+                return false;
             }
         }
-        return lbCount == rbCount; //if there are equal left and right brackets, return true
-      }
+        return lbCount == rbCount && hasOperand; //if there are equal left and right brackets, and at least one operand has been matched, return true
+    }
 
     // Shunting yard algorithm
     public static String[] convertInfixToPostfix(String[] infixLiterals) {
@@ -50,22 +83,26 @@ public class Arith {
         for (String infixLiteral : infixLiterals) {
             if (isOperand(infixLiteral))
                 postfixList.add(infixLiteral); 
-            else if (infixLiteral == "(")
+            else if (infixLiteral.equals("("))
                 operatorStack.push(infixLiteral);                                                                                                           
             else if (isOperator(infixLiteral)){
-                while ((operatorStack.peek() != "(" && operatorStack.peek() != null) &&
-                    (Arith.getPrecedence(operatorStack.peek()) > Arith.getPrecedence(infixLiteral) ||
+                while ((isOperator(operatorStack.peek())) &&
+                    ((Arith.getPrecedence(operatorStack.peek()) > Arith.getPrecedence(infixLiteral)) ||
                     (!Arith.isRightAssociative(infixLiteral) && Arith.getPrecedence(operatorStack.peek()) == Arith.getPrecedence(infixLiteral))
                 )){
                     postfixList.add(operatorStack.pop());
                 }
                 operatorStack.push(infixLiteral);
             }
-            else if (infixLiteral == ")") {
-                while (operatorStack.peek() != "(") {
+            else if(isFunction(infixLiteral))
+                operatorStack.push(infixLiteral);
+            else if (infixLiteral.equals(")")) {
+                while (!operatorStack.peek().equals("(")) {
                     postfixList.add(operatorStack.pop());
                 }
                 operatorStack.pop();
+                if(isFunction(operatorStack.peek()))
+                    postfixList.add(operatorStack.pop());
             }
         }   
         while (operatorStack.peek() != null){
@@ -82,28 +119,41 @@ public class Arith {
     public static double evaluatePostfixOrder(String[] postfixLiterals) {
         Deque<Double> operandStack = new ArrayDeque<>();
         for (String postfixLiteral : postfixLiterals) {
-            if (isOperator(postfixLiteral)) {
+            if (isOperator(postfixLiteral) || isFunction(postfixLiteral)) {
                 double secondOperand = operandStack.pop();
-                double firstOperand = operandStack.pop();
+                double firstOperand = 0;
+                if(!isFunction(postfixLiteral))
+                    firstOperand = operandStack.pop();
                 double result;
-                if (postfixLiteral.equals("+")) {
-                    result = firstOperand + secondOperand;
-                    operandStack.push(result);
-                } else if (postfixLiteral.equals("-")) {
-                    result = firstOperand - secondOperand;
-                    operandStack.push(result);
-                }
-                if (postfixLiteral.equals("*")) {
-                    result = firstOperand * secondOperand;
-                    operandStack.push(result);
-                }
-                if (postfixLiteral.equals("/")) {
-                    result = firstOperand / secondOperand;
-                    operandStack.push(result);
-                }
-                if (postfixLiteral.equals("^")) {
-                    result = Math.pow(firstOperand, secondOperand);
-                    operandStack.push(result);
+                switch (postfixLiteral) {
+                    case "+":
+                        result = firstOperand + secondOperand;
+                        operandStack.push(result);
+                        break;
+                    case "-":
+                        result = firstOperand - secondOperand;
+                        operandStack.push(result);
+                        break;
+                    case "*":
+                        result = firstOperand * secondOperand;
+                        operandStack.push(result);
+                        break;
+                    case "/":
+                        result = firstOperand / secondOperand;
+                        operandStack.push(result);
+                        break;
+                    case "^":
+                        result = Math.pow(firstOperand, secondOperand);
+                        operandStack.push(result);
+                        break;
+                    case "log":
+                        //operandStack.push(firstOperand);
+                        operandStack.push(Math.log(secondOperand));
+                        break;
+                    case "exp":
+                        //operandStack.push(firstOperand);
+                        operandStack.push(Math.exp(secondOperand));
+                        break;
                 }
             } else if (isOperand(postfixLiteral)) {
                 operandStack.push(Double.valueOf(postfixLiteral));
@@ -113,20 +163,36 @@ public class Arith {
     }
 
     public static boolean isOperand(String possibleOperand) {
+        if(possibleOperand == null) return false;
         if(possibleOperand.charAt(0) == '-'){
             possibleOperand = possibleOperand.substring(1, possibleOperand.length());
         }
         for (int i = 0; i < possibleOperand.length(); i++){
+            boolean decimalPoint = false;
             if (possibleOperand.charAt(i) < '0' || possibleOperand.charAt(i) > '9'){
-                return false;
+                if(possibleOperand.charAt(i) == '.'){
+                    if (decimalPoint == true || possibleOperand.endsWith("."))
+                        return false;
+                    decimalPoint = true;
+                }
+                else{
+                    return false;
+                }
             }
         }
         return possibleOperand.length() >= 1;
     }
 
     public static boolean isOperator(String possibleOperator) {
+        if(possibleOperator == null) return false;
         String operators = "+-/*^";
         return (operators.contains(possibleOperator) && possibleOperator.length() == 1);
+    }
+
+    public static boolean isFunction(String possibleFunction){
+        if(possibleFunction == null) return false;
+        Set<String> functions = Set.of("log", "exp");
+        return functions.contains(possibleFunction);
     }
 
     public static boolean isRightAssociative(String operator) {
@@ -148,6 +214,9 @@ public class Arith {
             case "+":
             case "-":
                 return 1;
+            case "log":
+            case "exp":
+                return 0;
             default:
                 throw new IllegalArgumentException();
         }

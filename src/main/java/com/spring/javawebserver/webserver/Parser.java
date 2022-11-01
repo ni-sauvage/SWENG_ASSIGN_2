@@ -5,8 +5,16 @@ import java.util.ArrayList;
 public class Parser {
     
     public static String[] parse (String expr){
+        if(expr == null){
+            String[] returnArray = {};
+            return returnArray;
+        }
         ArrayList<String> parseList = new ArrayList<String>();
         ArrayList<Character> operandList = new ArrayList<Character>();
+        if(expr.length() == 1){
+            String[] returnArray = {expr};
+            return returnArray;
+        }
         expr = expr.replaceAll("\\s+","");
         for(int i = 0; i < expr.length(); i++){
             if(expr.charAt(i) == '(' || expr.charAt(i) == ')' || 
@@ -20,7 +28,7 @@ public class Parser {
             else if(Arith.isOperand(Character.toString(expr.charAt(i))))
                 operandList.add(expr.charAt(i));
             else if(expr.charAt(i) == '-'){
-                if(!Arith.isOperand(Character.toString(expr.charAt(i-1)))){
+                if(i == 0 || !Arith.isOperand(Character.toString(expr.charAt(i-1)))){
                     operandList.add(expr.charAt(i));
                 } else {
                     if(operandList.size() != 0){
@@ -30,6 +38,9 @@ public class Parser {
                     parseList.add(Character.toString(expr.charAt(i)));
 
                 }
+            } 
+            else {
+                operandList.add(expr.charAt(i));
             }
         }
         if (!operandList.isEmpty())
