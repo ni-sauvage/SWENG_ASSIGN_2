@@ -9,13 +9,13 @@ public class Parser {
             String[] returnArray = {};
             return returnArray;
         }
+        expr = expr.replaceAll("\\s+","");
         ArrayList<String> parseList = new ArrayList<String>();
         ArrayList<Character> operandList = new ArrayList<Character>();
         if(expr.length() == 1){
             String[] returnArray = {expr};
             return returnArray;
         }
-        expr = expr.replaceAll("\\s+","");
         for(int i = 0; i < expr.length(); i++){
             if(expr.charAt(i) == '(' || expr.charAt(i) == ')' || 
                 (Arith.isOperator(Character.toString(expr.charAt(i))) && expr.charAt(i) != '-')){

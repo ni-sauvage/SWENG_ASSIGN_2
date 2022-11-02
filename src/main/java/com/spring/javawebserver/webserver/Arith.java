@@ -18,6 +18,7 @@ public class Arith {
         boolean hasOperand = isOperand(infixLiterals[0]) || isOperand(infixLiterals[infixLiterals.length - 1]);
         int lbCount = infixLiterals[0].equals("(") ? 1 : 0;
         int rbCount = infixLiterals[infixLiterals.length - 1].equals(")") ? 1 : 0;
+        if(infixLiterals[0].length() > 4 || infixLiterals[infixLiterals.length - 1].length() > 4) return false;
         if(infixLiterals[infixLiterals.length - 1].equals("(") || infixLiterals[0].equals(")")) return false;
         if(infixLiterals.length == 1){
             if(isOperand(infixLiterals[0]))
@@ -26,50 +27,47 @@ public class Arith {
         }
         if(isOperator(infixLiterals[infixLiterals.length-1]) 
             || isFunction(infixLiterals[infixLiterals.length-1])
-            || isOperator(infixLiterals[0]) 
-        )
+            || (isOperator(infixLiterals[0])  && !infixLiterals[0].equals("-")))
             return false;
         for (int i = 1; i < infixLiterals.length - 1; i++) {
-            try{
-                if (isOperand(infixLiterals[i])) {
-                    if (isOperand(infixLiterals[i - 1]) || isOperand(infixLiterals[i + 1])) {
-                        return false;
-                    }
-                    hasOperand = true;
+            if(infixLiterals[i].length() > 4) return false;
+            if (isOperand(infixLiterals[i])) {
+                if (isOperand(infixLiterals[i - 1]) || isOperand(infixLiterals[i + 1])) {
+                    return false;
                 }
-                if (isOperator(infixLiterals[i])) {
-                    if (isOperator(infixLiterals[i - 1]) || isOperator(infixLiterals[i + 1])
+                hasOperand = true;
+            }
+            else if (isOperator(infixLiterals[i])) {
+                if (isOperator(infixLiterals[i - 1]) || isOperator(infixLiterals[i + 1])
                         || infixLiterals[i - 1].equals("(")
-                        || infixLiterals[i + 1].equals(")")
-                    ) {
+                        || infixLiterals[i + 1].equals(")")) {
                         return false;
                     }
+            }
+            else if (infixLiterals[i].equals("(")) {
+                lbCount++;
+                if (isOperator(infixLiterals[i + 1])) {
+                    return false;
                 }
-                if (infixLiterals[i].equals("(")) {
-                    lbCount++;
-                    if (isOperator(infixLiterals[i + 1])) {
-                        return false;
-                    }
-                    if (infixLiterals[i - 1].equals(")") || infixLiterals[i + 1].equals(")")) {
-                        return false;
-                    }
+                if (infixLiterals[i - 1].equals(")") || infixLiterals[i + 1].equals(")")) {
+                    return false;
                 }
-                if (infixLiterals[i].equals(")")) {
-                    rbCount++;
-                    if (isOperand(infixLiterals[i + 1])) {
-                        return false;
-                    }
-                    if (infixLiterals[i - 1].equals("(") || infixLiterals[i + 1].equals("(")) {
-                        return false;
-                    }
+            }
+            else if (infixLiterals[i].equals(")")) {
+                rbCount++;
+                if (isOperand(infixLiterals[i + 1])) {
+                    return false;
                 }
-                if(isFunction(infixLiterals[i])){
-                    if(isOperand(infixLiterals[i-1]) || infixLiterals[i-1].equals(")"))
-                        return false;
-                    if(!infixLiterals[i+1].equals("("))
-                        return false;
+                if (infixLiterals[i - 1].equals("(") || infixLiterals[i + 1].equals("(")) {
+                    return false;
                 }
-            } catch (Exception e){
+            }
+            else if(isFunction(infixLiterals[i])){
+                if(isOperand(infixLiterals[i-1]) || infixLiterals[i-1].equals(")"))
+                    return false;
+                if(!infixLiterals[i+1].equals("("))
+                    return false;
+            } else {
                 return false;
             }
         }
@@ -122,8 +120,9 @@ public class Arith {
             if (isOperator(postfixLiteral) || isFunction(postfixLiteral)) {
                 double secondOperand = operandStack.pop();
                 double firstOperand = 0;
-                if(!isFunction(postfixLiteral))
+                if(!isFunction(postfixLiteral) && !operandStack.isEmpty()){
                     firstOperand = operandStack.pop();
+                }
                 double result;
                 switch (postfixLiteral) {
                     case "+":
@@ -147,12 +146,16 @@ public class Arith {
                         operandStack.push(result);
                         break;
                     case "log":
-                        //operandStack.push(firstOperand);
                         operandStack.push(Math.log(secondOperand));
                         break;
                     case "exp":
-                        //operandStack.push(firstOperand);
                         operandStack.push(Math.exp(secondOperand));
+                        break;
+                    case "-log":
+                        operandStack.push(-Math.log(secondOperand));
+                        break;
+                    case "-exp":
+                        operandStack.push(-Math.exp(secondOperand));
                         break;
                 }
             } else if (isOperand(postfixLiteral)) {
@@ -191,7 +194,7 @@ public class Arith {
 
     public static boolean isFunction(String possibleFunction){
         if(possibleFunction == null) return false;
-        Set<String> functions = Set.of("log", "exp");
+        Set<String> functions = Set.of("log", "exp", "-log", "-exp");
         return functions.contains(possibleFunction);
     }
 
@@ -214,9 +217,6 @@ public class Arith {
             case "+":
             case "-":
                 return 1;
-            case "log":
-            case "exp":
-                return 0;
             default:
                 throw new IllegalArgumentException();
         }
