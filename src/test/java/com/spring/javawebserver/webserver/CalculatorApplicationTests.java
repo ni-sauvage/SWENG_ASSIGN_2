@@ -27,6 +27,16 @@ class CalculatorApplicationTests {
 		parseString = "2+exp(2)";
 		parsedString = new String[]{ "2", "+", "exp", "(", "2", ")" };
 		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty singleton infixLiteral String");
+		parseString = "(((-34*5)^7)+(1000-(3+(6/3))))";
+		parsedString = new String[]{ "(", "(", "(", "-34", "*", "5", ")", "^", "7", ")", "+", "(", "1000", "-", "(", "3", "+", "(", "6", "/", "3", ")", ")", ")", ")" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing another parser with non-empty infixLiteral String");
+		parseString = "1+2";
+		parsedString = new String[]{ "1", "+", "2" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing basic parser with non-empty infixLiteral String");
+		parseString = "((-34*-5)-(-55-(-67)))";
+		parsedString = new String[]{ "(", "(", "-34", "*", "-5", ")", "-", "(", "-55", "-", "(", "-67", ")", ")", ")" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with all negative infixLiteral String");
+
 	}
 
 	@Test
@@ -49,7 +59,18 @@ class CalculatorApplicationTests {
         assertEquals(43046721, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with power operators");
 		infixLiterals = new String[]{ "3", "+", "5", "*", "exp", "(", "4.2", ")", "/", "(", "5", "+", "7", ")" };
         assertEquals(3+5*Math.exp(4.2)/(5+7), Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with functions and real numbers");
+		infixLiterals = new String[]{ "3", "^", "4", "^", "2" };
+        assertEquals(43046721, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with power operators");
+		infixLiterals = new String[]{ "(", "(","-3", ")", "*", "(", "-4", ")", "*", "(", "-2", ")", ")"};
+        assertEquals(-24, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with all negative integers");
+		infixLiterals = new String[]{ "217821",  "+", "885656" };
+        assertEquals(1103477, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with large integers");
+		infixLiterals = new String[]{ "24.76", "+",  "4.89"};
+        assertEquals(29.65, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with floating point numbers");
+		infixLiterals = new String[]{ "(", "(", "24.76", "+",  "4.89", ")", "*", "2.01", ")"};
+        assertEquals(59.5965, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with floating point numbers");
     }
+
 
     @Test
     public void testValidateInfix(){
