@@ -21,6 +21,9 @@ class CalculatorApplicationTests {
 		parseString = "-";
 		parsedString = new String[]{ "-" };
 		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty singleton infixLiteral String");
+		parseString = "1";
+		parsedString = new String[]{ "1" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty singleton infixLiteral String");
 		parseString = "exp";
 		parsedString = new String[]{ "exp" };
 		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty singleton infixLiteral String");
@@ -182,5 +185,21 @@ class CalculatorApplicationTests {
 		assertEquals(false, Arith.isRightAssociative(operator), "Testing isRightAssociative with division");
 		operator = "^";
 		assertEquals(true, Arith.isRightAssociative(operator), "Testing isRightAssociative with power");
+	}
+
+	@Test
+	public void testIsFunction(){
+		String function = "exp";
+		assertEquals(true, Arith.isFunction(function), "Testing isFunction with exp");
+		function = "log";
+		assertEquals(true, Arith.isFunction(function), "Testing isFunction with log");
+		function = "-exp";
+		assertEquals(true, Arith.isFunction(function), "Testing isFunction with -exp");
+		function = "-log";
+		assertEquals(true, Arith.isFunction(function), "Testing isFunction with -log");
+		function = "^";
+		assertEquals(false, Arith.isFunction(function), "Testing isFunction with power");
+		function = "Am function";
+		assertEquals(false, Arith.isFunction(function), "Testing isFunction with string");
 	}
 }

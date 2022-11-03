@@ -3,19 +3,17 @@ package com.spring.javawebserver.webserver;
 import java.util.ArrayList;
 
 public class Parser {
+    /**
+     * 
+     * @param expr - String inputted into webapp
+     * @return Array of Strings, parsed into separate components
+     */
     
     public static String[] parse (String expr){
-        if(expr == null){
-            String[] returnArray = {};
-            return returnArray;
-        }
-        expr = expr.replaceAll("\\s+","");
-        ArrayList<String> parseList = new ArrayList<String>();
-        ArrayList<Character> operandList = new ArrayList<Character>();
-        if(expr.length() == 1){
-            String[] returnArray = {expr};
-            return returnArray;
-        }
+        if(expr == null) return null;                                                               // If there is no input, return null
+        expr = expr.replaceAll("\\s+","");                                       // Remove all whitespace from comment
+        ArrayList<String> parseList = new ArrayList<String>();                                      // Create arraylist to store results of parsing
+        ArrayList<Character> operandList = new ArrayList<Character>();                              // Create arraylist to store multi-digit operands
         for(int i = 0; i < expr.length(); i++){
             if(expr.charAt(i) == '(' || expr.charAt(i) == ')' || 
                 (Arith.isOperator(Character.toString(expr.charAt(i))) && expr.charAt(i) != '-')){
