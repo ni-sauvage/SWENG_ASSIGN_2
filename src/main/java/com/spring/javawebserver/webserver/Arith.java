@@ -3,7 +3,6 @@ package com.spring.javawebserver.webserver;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.LinkedList;
 import java.util.Set;
 
 public class Arith {
@@ -111,11 +110,8 @@ public class Arith {
         while (operatorStack.peek() != null){
             postfixList.add(operatorStack.pop());
         }
-        //Crude conversion ahead, rework if possible.
         String[] postfixLiterals = new String[postfixList.size()];
-        for (int i = 0; i < postfixLiterals.length; i++){
-            postfixLiterals[i] = postfixList.get(i);
-        }
+        postfixLiterals = postfixList.toArray(postfixLiterals);
         return postfixLiterals;
     }
 
