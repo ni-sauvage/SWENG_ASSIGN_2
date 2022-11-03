@@ -18,7 +18,7 @@ public class Arith {
         boolean hasOperand = isOperand(infixLiterals[0]) || isOperand(infixLiterals[infixLiterals.length - 1]);
         int lbCount = infixLiterals[0].equals("(") ? 1 : 0;
         int rbCount = infixLiterals[infixLiterals.length - 1].equals(")") ? 1 : 0;
-        if(infixLiterals[0].length() > 4 || infixLiterals[infixLiterals.length - 1].length() > 4) return false;
+        if((infixLiterals[0].length() > 4 && !isOperand((infixLiterals[0]))) || (infixLiterals[infixLiterals.length - 1].length() > 4 && !isOperand(infixLiterals[infixLiterals.length - 1]))) return false;
         if(infixLiterals[infixLiterals.length - 1].equals("(") || infixLiterals[0].equals(")")) return false;
         if(infixLiterals.length == 1){
             if(isOperand(infixLiterals[0]))
@@ -30,7 +30,7 @@ public class Arith {
             || (isOperator(infixLiterals[0])  && !infixLiterals[0].equals("-")))
             return false;
         for (int i = 1; i < infixLiterals.length - 1; i++) {
-            if(infixLiterals[i].length() > 4) return false;
+            if(infixLiterals[i].length() > 4 && !isOperand(infixLiterals[i])) return false;
             if (isOperand(infixLiterals[i])) {
                 if (isOperand(infixLiterals[i - 1]) || isOperand(infixLiterals[i + 1])) {
                     return false;

@@ -66,7 +66,7 @@ class CalculatorApplicationTests {
 		infixLiterals = new String[]{ "217821",  "+", "885656" };
         assertEquals(1103477, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with large integers");
 		infixLiterals = new String[]{ "24.76", "+",  "4.89"};
-        assertEquals(29.65, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with floating point numbers");
+        assertEquals(29.650000000000002, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with floating point numbers"); // There will be inaccuracy here due to the constraints of floating point arithmetic, this will be eliminated when formatting/rounding in main.
 		infixLiterals = new String[]{ "(", "(", "24.76", "+",  "4.89", ")", "*", "2.01", ")"};
         assertEquals(59.5965, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with floating point numbers");
     }

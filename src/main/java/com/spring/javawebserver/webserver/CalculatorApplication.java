@@ -1,5 +1,6 @@
 package com.spring.javawebserver.webserver;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 import org.springframework.boot.SpringApplication;
@@ -27,6 +28,7 @@ class CalculationController {
         if(Arith.validateInfixOrder(inputLiterals)){
             Double result = Arith.evaluateInfixOrder(inputLiterals);
             DecimalFormat formatResult = new DecimalFormat("#.###");
+            formatResult.setRoundingMode(RoundingMode.HALF_UP);
             String output = formatResult.format(result); 
             model.addAttribute("Calculation", output);
             return "result"; 
