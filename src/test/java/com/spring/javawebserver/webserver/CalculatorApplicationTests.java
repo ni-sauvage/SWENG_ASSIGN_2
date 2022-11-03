@@ -15,6 +15,31 @@ class CalculatorApplicationTests {
 		String parseString = "(((1-5)^3)+(10-(3+(-6/3))))";
 		String[] parsedString = { "(", "(", "(", "1", "-", "5", ")", "^", "3", ")", "+", "(", "10", "-", "(", "3", "+", "(", "-6", "/", "3", ")", ")", ")", ")" };
 		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty infixLiteral String");
+		parseString = "3+5*exp(4.2)/(5+7)";
+		parsedString = new String[]{ "3", "+", "5", "*", "exp", "(", "4.2", ")", "/", "(", "5", "+", "7", ")" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty infixLiteral String with functions and real numbers");
+		parseString = "-";
+		parsedString = new String[]{ "-" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty singleton infixLiteral String");
+		parseString = "1";
+		parsedString = new String[]{ "1" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty singleton infixLiteral String");
+		parseString = "exp";
+		parsedString = new String[]{ "exp" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty singleton infixLiteral String");
+		parseString = "2+exp(2)";
+		parsedString = new String[]{ "2", "+", "exp", "(", "2", ")" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with non-empty singleton infixLiteral String");
+		parseString = "(((-34*5)^7)+(1000-(3+(6/3))))";
+		parsedString = new String[]{ "(", "(", "(", "-34", "*", "5", ")", "^", "7", ")", "+", "(", "1000", "-", "(", "3", "+", "(", "6", "/", "3", ")", ")", ")", ")" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing another parser with non-empty infixLiteral String");
+		parseString = "1+2";
+		parsedString = new String[]{ "1", "+", "2" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing basic parser with non-empty infixLiteral String");
+		parseString = "((-34*-5)-(-55-(-67)))";
+		parsedString = new String[]{ "(", "(", "-34", "*", "-5", ")", "-", "(", "-55", "-", "(", "-67", ")", ")", ")" };
+		assertEquals(true, Arrays.equals(Parser.parse(parseString), parsedString), "testing parser with all negative infixLiteral String");
+
 	}
 
 	@Test
@@ -35,7 +60,20 @@ class CalculatorApplicationTests {
         assertEquals(0.25, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with non-integer result");
 		infixLiterals = new String[]{ "3", "^", "4", "^", "2" };
         assertEquals(43046721, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with power operators");
+		infixLiterals = new String[]{ "3", "+", "5", "*", "exp", "(", "4.2", ")", "/", "(", "5", "+", "7", ")" };
+        assertEquals(3+5*Math.exp(4.2)/(5+7), Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with functions and real numbers");
+		infixLiterals = new String[]{ "3", "^", "4", "^", "2" };
+        assertEquals(43046721, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with power operators");
+		infixLiterals = new String[]{ "(", "(","-3", ")", "*", "(", "-4", ")", "*", "(", "-2", ")", ")"};
+        assertEquals(-24, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with all negative integers");
+		infixLiterals = new String[]{ "217821",  "+", "885656" };
+        assertEquals(1103477, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with large integers");
+		infixLiterals = new String[]{ "24.76", "+",  "4.89"};
+        assertEquals(29.650000000000002, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with floating point numbers"); // There will be inaccuracy here due to the constraints of floating point arithmetic, this will be eliminated when formatting/rounding in main.
+		infixLiterals = new String[]{ "(", "(", "24.76", "+",  "4.89", ")", "*", "2.01", ")"};
+        assertEquals(59.5965, Arith.evaluateInfixOrder(infixLiterals), "testing evaluateInfixOrder with non-empty infixLiteral String with floating point numbers");
     }
+
 
     @Test
     public void testValidateInfix(){
@@ -55,6 +93,10 @@ class CalculatorApplicationTests {
         assertEquals(false, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty invalid infixLiteral String");
         infixLiterals = new String[]{ "(", "(", "(", "5", "*", "(", "3", "/", "4", ")", ")", "-", "5", ")", "+", "(", "7", "/", "(", "2", "+", "3", ")", ")", "-", "7", ")"};
         assertEquals(true, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty valid infixLiteral String");
+		infixLiterals = new String[]{ "exp"};
+        assertEquals(false, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty invalid singleton infixLiteral String array");
+		infixLiterals = new String[]{ "2", "+", "exp", "(", "2", ")" };
+		assertEquals(true, Arith.validateInfixOrder(infixLiterals), "testing validateInfixOrder with non-empty valid String array containing functions");
     }
     @Test
     public void testInfixToPostfix(){
@@ -79,6 +121,8 @@ class CalculatorApplicationTests {
 		assertEquals(15, Arith.evaluatePostfixOrder(expr), "Testing evaluatePostfix with String Array 1, 2, +, 4, *, 3, /, 2, ^, 1, -");
 		expr = new String[] {"4", "2", "3", "+", "*"};
 		assertEquals(20, Arith.evaluatePostfixOrder(expr), "Testing evaluatePostfix with String Array 4, 2, 3, +, *");
+		expr = new String[] {"4", "exp"};
+		assertEquals(Math.exp(4), Arith.evaluatePostfixOrder(expr), "Testing evaluatePostfix with String Array 4, exp");
 	}
 	@Test
 	public void testIsOperand(){
@@ -141,5 +185,21 @@ class CalculatorApplicationTests {
 		assertEquals(false, Arith.isRightAssociative(operator), "Testing isRightAssociative with division");
 		operator = "^";
 		assertEquals(true, Arith.isRightAssociative(operator), "Testing isRightAssociative with power");
+	}
+
+	@Test
+	public void testIsFunction(){
+		String function = "exp";
+		assertEquals(true, Arith.isFunction(function), "Testing isFunction with exp");
+		function = "log";
+		assertEquals(true, Arith.isFunction(function), "Testing isFunction with log");
+		function = "-exp";
+		assertEquals(true, Arith.isFunction(function), "Testing isFunction with -exp");
+		function = "-log";
+		assertEquals(true, Arith.isFunction(function), "Testing isFunction with -log");
+		function = "^";
+		assertEquals(false, Arith.isFunction(function), "Testing isFunction with power");
+		function = "Am function";
+		assertEquals(false, Arith.isFunction(function), "Testing isFunction with string");
 	}
 }
