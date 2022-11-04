@@ -1,83 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap");
 body {
-    background-image: url('media/bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    max-height: 100vh;
-   }
+  background-image: url("media/bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  max-height: 100vh;
+}
 
 /*START INDEX STYLING*/
-.mainContainer{
-    position: relative;
-    height: 100vh;
-    width: 100%;
+.mainContainer {
+  position: relative;
+  height: 100vh;
+  width: 100%;
 }
-.headerStyle{
-    position: relative;
-    width: 100%;
-    height: 30%;
-    top: 80px;
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
+
+.headerStyle {
+  position: relative;
+  width: 100%;
+  height: 30%;
+  top: 80px;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
 }
-.gold{
-    position: relative;
-    color: white;
+.gold {
+  position: relative;
+  color: white;
 }
-.inputSection{
-    position: relative;
+.inputSection {
+  position: relative;
 }
-.explanationText{
-    text-align: center;
-    font-family: 'Nunito', sans-serif;
+.explanationText {
+  text-align: center;
+  font-family: "Nunito", sans-serif;
 }
-.calc{
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+.calc {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
-.inputText{
-    position: relative;
-    text-align: center;
-    font-family: 'Nunito', sans-serif;
+.inputText {
+  position: relative;
+  text-align: center;
+  font-family: "Nunito", sans-serif;
 }
-.twoInputs{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 20px;
+.twoInputs {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 20px;
 }
-.boxArea{
-    position: relative;
-    top: 15px;
-    min-height: 100px;
+.boxArea {
+  position: relative;
+  top: 15px;
+  min-height: 100px;
 }
-.boxArea textarea{
-    border-radius: 12px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+.boxArea textarea {
+  border-radius: 12px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
-.buttonStyle{
-    position: relative;
+.buttonStyle {
+  position: relative;
 }
-.buttonStyle input:hover{
-    background-color: lightgray;
+.buttonStyle input:hover {
+  background-color: lightgray;
 }
-.buttonStyle input{
-    border-radius: 8px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Nunito', sans-serif;
-    font-weight: bold;
-    cursor: pointer;
+.buttonStyle input {
+  border-radius: 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 /*END INDEX STYLING*/
-
 
 /*START INVALID STYLING*/
