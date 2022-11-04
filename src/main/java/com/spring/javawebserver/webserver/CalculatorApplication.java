@@ -31,7 +31,7 @@ class CalculationController {
             formatResult.setRoundingMode(RoundingMode.HALF_UP);
             String output = formatResult.format(result); 
             model.addAttribute("Calculation", output);
-            return "result"; 
+            return "result";
         } else{
             return "/invalid";
         }
