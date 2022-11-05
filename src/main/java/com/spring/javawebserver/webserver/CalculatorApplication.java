@@ -25,9 +25,10 @@ class CalculationController {
         if(Arith.validateInfixOrder(inputLiterals)){
             String result = String.valueOf(Arith.evaluateInfixOrder(inputLiterals)); 
             model.addAttribute("Calculation", result);
-            return "result"; 
+            return "/CalculatorDesignT"; 
         } else{
             return "/invalid";
         }
+       
     }
 }
