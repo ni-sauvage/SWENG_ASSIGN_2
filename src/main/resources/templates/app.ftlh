@@ -19,6 +19,7 @@ Reference: https://www.cssacademy.com/blog/create-a-calculator-in-html-and-css
     <button class = "functions">7</button>
     <button class = "functions">8</button>
     <button class = "functions">9</button>
+    <button class = "functions">.</button>
     <button class = "functions functiond--enter">=</button>
     </div>
 </div>
