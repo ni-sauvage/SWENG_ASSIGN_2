@@ -1,5 +1,8 @@
 package com.spring.javawebserver.webserver;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -21,15 +24,16 @@ class CalculationController {
 
     @PostMapping("/calculate")
     public String calculate(@RequestParam String description, @RequestParam String expr, Model model) {
-            String[] inputLiterals = Parser.parse(description);
+        String[] inputLiterals = Parser.parse(description);
         if(Arith.validateInfixOrder(inputLiterals)){
-            String result = String.valueOf(Arith.evaluateInfixOrder(inputLiterals)); 
-            model.addAttribute("Calculation", result);
+            Double result = Arith.evaluateInfixOrder(inputLiterals);
+            DecimalFormat formatResult = new DecimalFormat("#.###");
+            formatResult.setRoundingMode(RoundingMode.HALF_UP);
+            String output = formatResult.format(result); 
+            model.addAttribute("Calculation", output);
             return "/result"; 
+        } else{
+            return "/invalid";
         }
-        else{
-            return "/invalid";   
-        }
-     
     }
 }
