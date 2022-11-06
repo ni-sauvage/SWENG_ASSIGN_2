@@ -26,10 +26,10 @@ class CalculationController {
             String result = String.valueOf(Arith.evaluateInfixOrder(inputLiterals)); 
             model.addAttribute("Calculation", result);
             return "/result"; 
-        } 
+        }
         else{
             return "/invalid";   
         }
-      
+     
     }
 }
