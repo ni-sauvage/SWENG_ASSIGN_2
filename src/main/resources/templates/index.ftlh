@@ -66,7 +66,7 @@
                                             name="description" id="userExpression"><#if description??>${description}</#if></textarea>
                                         <button class = "functions functiond--enter" type="submit" name="expr" id="fixStyle">=</button>
                                     </form>
-                                    <button class = "functions"></button>
+                                    <button class = "functions" onClick="expressionBuilder('^')">^</button>
                                     <button class = "functions"></button>
                                     <button class = "functions" onClick="expressionBuilder('(')">(</button>
                                     <button class = "functions" onClick="expressionBuilder(')')">)</button>
