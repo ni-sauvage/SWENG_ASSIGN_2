@@ -70,7 +70,7 @@
                                     <button class = "functions"></button>
                                     <button class = "functions" onClick="expressionBuilder('(')">(</button>
                                     <button class = "functions" onClick="expressionBuilder(')')">)</button>
-                                    <button class = "functions"></button>
+                                    <button class = "functions" ></button>
                                 </div>
                                 
                         </div>
