@@ -39,7 +39,7 @@
                             </div>
                         </form>
                         <div class="calculator" id="calcDisplay">
-                            <div class = "calculatorDesign">0</div>
+                            <div class = "calculatorDesign">0000</div>
                             <div class = "function">
                                 <button class = "functions functions--operand">+</button>
                                 <button class = "functions functions--operand">-</button>
@@ -60,6 +60,7 @@
                                 <button class = "functions">9</button>
                                 <button class = "functions">.</button>
                                 <button class = "functions functiond--enter">=</button>
+                                <button class = "functions"></button>
                             </div>
                         </div>
                 </div>

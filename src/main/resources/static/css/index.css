@@ -69,7 +69,18 @@ body {
 .stringButton {
   position: relative;
 }
-.stringButton button,
+.stringButton button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid black;
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+  background-color: lightblue;
+}
 .calcButton button {
   position: absolute;
   left: 50%;
@@ -176,16 +187,19 @@ body {
   margin-block-start: 2em;
   max-inline-size: 22rem;
   overflow: hidden;
+  display: none;
+  border: 2px solid black;
 }
 
 .calculatorDesign {
-  background: black;
-  color: #f2aa4cff;
+  background: white;
+  color: lightblue;
   font-size: 2rem;
   padding-block-start: 0.5rem;
   padding-block-end: 0.5rem;
   padding-inline-end: 0.75rem;
   text-align: end;
+  border-bottom: 2px solid black;
 }
 
 .function {
@@ -196,7 +210,7 @@ body {
 }
 
 .functions {
-  background: #f2aa4cff;
+  background: lightblue;
   border: none;
   padding-block-start: 1rem;
   padding-block-end: 1rem;
