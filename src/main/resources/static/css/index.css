@@ -178,6 +178,7 @@ body {
 }
 
 /*SAIF CSS*/
+/* Reference: https://www.cssacademy.com/blog/create-a-calculator-in-html-and-css */
 .calculator {
   border-radius: 10px;
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0, 15),
@@ -217,12 +218,10 @@ body {
   padding-inline-end: 1.25rem;
   padding-inline-start: 1.25rem;
   font-size: 1.5rem;
+  cursor: pointer;
 }
-
-.functions:active,
-.functions:focus {
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3) inset;
-  outline: none;
+.functions:hover {
+  background: #c3e5eb;
 }
 
 .functions--operator {

@@ -39,29 +39,40 @@
                             </div>
                         </form>
                         <div class="calculator" id="calcDisplay">
-                            <div class = "calculatorDesign">0000</div>
-                            <div class = "function">
-                                <button class = "functions functions--operand">+</button>
-                                <button class = "functions functions--operand">-</button>
-                                <button class = "functions functions--operand">&times;</button>
-                                <button class = "functions functions--operand">÷</button>
-                                <button class = "functions">0</button>
-                                <button class = "functions">1</button>
-                                <button class = "functions">2</button>
-                                <button class = "functions">log</button>
-                                <button class = "functions">3</button>
-                                <button class = "functions">4</button>
-                                <button class = "functions">5</button>
-                                <button class = "functions">exp</button>
-                                <button class = "functions">6</button>
-                                <button class = "functions">7</button>
-                                <button class = "functions">8</button>
-                                <button class = "functions">AC</button>
-                                <button class = "functions">9</button>
-                                <button class = "functions">.</button>
-                                <button class = "functions functiond--enter">=</button>
-                                <button class = "functions"></button>
-                            </div>
+                        
+                            
+                                <div class = "calculatorDesign"  id="userDisplay"></div>
+                                <div class = "function">
+                                    <button class = "functions functions--operand" onClick="expressionBuilder('+')">+</button>
+                                    <button class = "functions functions--operand" onClick="expressionBuilder('-')">-</button>
+                                    <button class = "functions functions--operand" onClick="expressionBuilder('*')">&times;</button>
+                                    <button class = "functions functions--operand" onClick="expressionBuilder('/')">÷</button>
+                                    <button class = "functions" onClick="expressionBuilder('0')">0</button>
+                                    <button class = "functions" onClick="expressionBuilder('1')">1</button>
+                                    <button class = "functions" onClick="expressionBuilder('2')">2</button>
+                                    <button class = "functions" onClick="expressionBuilder('log')">log</button>
+                                    <button class = "functions" onClick="expressionBuilder('3')">3</button>
+                                    <button class = "functions" onClick="expressionBuilder('4')">4</button>
+                                    <button class = "functions" onClick="expressionBuilder('5')">5</button>
+                                    <button class = "functions" onClick="expressionBuilder('exp')">exp</button>
+                                    <button class = "functions" onClick="expressionBuilder('6')">6</button>
+                                    <button class = "functions" onClick="expressionBuilder('7')">7</button>
+                                    <button class = "functions" onClick="expressionBuilder('8')">8</button>
+                                    <button class = "functions" onClick="clearCalc()">AC</button>
+                                    <button class = "functions" onClick="expressionBuilder('9')">9</button>
+                                    <button class = "functions" onClick="expressionBuilder('.')">.</button>
+                                    <form action="/calculate" method="POST" enctype="multipart/form-data">
+                                        <textarea class="f4 db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2" rows="5"
+                                            name="description" id="userExpression"><#if description??>${description}</#if></textarea>
+                                        <button class = "functions functiond--enter" type="submit" name="expr" id="fixStyle">=</button>
+                                    </form>
+                                    <button class = "functions"></button>
+                                    <button class = "functions"></button>
+                                    <button class = "functions" onClick="expressionBuilder('(')">(</button>
+                                    <button class = "functions" onClick="expressionBuilder(')')">)</button>
+                                    <button class = "functions"></button>
+                                </div>
+                                
                         </div>
                 </div>
             </div>

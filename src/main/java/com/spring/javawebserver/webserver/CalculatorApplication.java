@@ -26,7 +26,7 @@ class CalculationController {
             model.addAttribute("Calculation", result);
             return "/result";
         } else {
-            return "/app";
+            return "/invalid";
         }
 
     }
