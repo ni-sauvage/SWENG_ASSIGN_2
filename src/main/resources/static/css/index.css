@@ -201,6 +201,7 @@ body {
   padding-inline-end: 0.75rem;
   text-align: end;
   border-bottom: 2px solid black;
+  height: auto;
 }
 
 .function {

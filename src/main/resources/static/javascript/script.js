@@ -49,7 +49,12 @@ StringBuilder.prototype.toString = function () {
 
 var sb = new StringBuilder();
 function expressionBuilder(x) {
-  sb.append(x);
+  if (sb.toString().length % 15 === 0) {
+    sb.append("\n");
+    sb.append(x);
+  } else {
+    sb.append(x);
+  }
   document.getElementById("userExpression").innerHTML = sb.toString();
   document.getElementById("userDisplay").innerHTML = sb.toString();
 }
