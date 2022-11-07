@@ -10,26 +10,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 @SpringBootApplication
 public class CalculatorApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CalculatorApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CalculatorApplication.class, args);
+    }
 }
-
 
 @Controller
 class CalculationController {
 
     @PostMapping("/calculate")
     public String calculate(@RequestParam String description, @RequestParam String expr, Model model) {
-            String[] inputLiterals = Parser.parse(description);
-        if(Arith.validateInfixOrder(inputLiterals)){
-            String result = String.valueOf(Arith.evaluateInfixOrder(inputLiterals)); 
+        String[] inputLiterals = Parser.parse(description);
+        if (Arith.validateInfixOrder(inputLiterals)) {
+            String result = String.valueOf(Arith.evaluateInfixOrder(inputLiterals));
             model.addAttribute("Calculation", result);
-            return "/result"; 
+            return "/result";
+        } else {
+            return "/app";
         }
-        else{
-            return "/invalid";   
-        }
-     
+
     }
 }
