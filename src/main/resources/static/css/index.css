@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap");
 body {
-  background-image: url("media/bg.jpg");
+  background: url("media/bg.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  max-height: 100vh;
   overflow: hidden;
 }
 
@@ -57,9 +57,50 @@ body {
   grid-column-gap: 0px;
   grid-row-gap: 20px;
 }
+.buttonSelector {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 0px;
+  width: 500px;
+  height: 100px;
+}
+.stringButton {
+  position: relative;
+}
+.stringButton button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid black;
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+  background-color: lightblue;
+}
+.calcButton button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid black;
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+}
+.calcButton {
+  position: relative;
+}
+.stringButton button:hover,
+.calcButton button:hover {
+  background-color: lightgray;
+}
 .boxArea {
   position: relative;
-  top: 25px;
   min-height: 100px;
 }
 .boxArea textarea {
@@ -135,3 +176,66 @@ body {
     opacity: 1;
   }
 }
+
+/*SAIF CSS*/
+/* Reference: https://www.cssacademy.com/blog/create-a-calculator-in-html-and-css */
+.calculator {
+  border-radius: 10px;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0, 15),
+    0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  margin-block-start: 2em;
+  max-inline-size: 22rem;
+  overflow: hidden;
+  display: none;
+  border: 2px solid black;
+}
+
+.calculatorDesign {
+  background: white;
+  color: lightblue;
+  font-size: 2rem;
+  padding-block-start: 0.5rem;
+  padding-block-end: 0.5rem;
+  padding-inline-end: 0.75rem;
+  text-align: end;
+  border-bottom: 2px solid black;
+  height: auto;
+}
+
+.function {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1px;
+  background: black;
+}
+
+.functions {
+  background: lightblue;
+  border: none;
+  padding-block-start: 1rem;
+  padding-block-end: 1rem;
+  padding-inline-end: 1.25rem;
+  padding-inline-start: 1.25rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.functions:hover {
+  background: #c3e5eb;
+}
+
+.functions--operator {
+  background: hsl(208, 25%, 86%);
+}
+
+.functions--operator:active {
+  background: hsl(208, 24%, 80%);
+}
+
+.functions--enter {
+  grid-column: 4/5;
+  grid-row: 2 / span 4;
+  background: hsl(357, 100%, 72%);
+}
+/*END SAIF CSS*/
